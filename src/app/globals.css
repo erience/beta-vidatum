@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: "Karla", sans-serif;
+    background-color: #f4f6f8;
+  }
+.card {
+    font-size: medium;
+}
+  .table {
+    @apply w-full text-start;
+  }
+
+  .table tr th,
+  .table tr td {
+    @apply py-1 px-1 text-start border-b;
+  }
+
+  .table tr:last-child td {
+    @apply border-b-0;
+  }
+
+  .table tr:nth-child(odd) td {
+    @apply !bg-gray-50;
+  }
+
+  .table tr:nth-child(even) td {
+    @apply !bg-white;
+  }
+
+  .table tr td a {
+    @apply flex items-center justify-center;
+  }
+
+  .dtable-btn-gradient {
+    background: linear-gradient(
+      to bottom,
+      rgba(153, 153, 153, 0.1) 0%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+  }
+
+  .dtable-btn-gradient:hover {
+    background: linear-gradient(
+      to bottom,
+      rgba(230, 230, 230, 0.1) 0%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+  }
+
+  button {
+    @apply !outline-none;
+  }
+}
+/* globals.css or tailwind classes in JSX */
+/* .home-section {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content-section {
+  flex: 1;
+  padding: 1rem;
+  background: #fff;
+  overflow-x: auto;
+} */
+
+
+
+@layer utilities {
+  @screen md {
+    .downarrow {
+      display: none !important;
+    }
+  }
+}

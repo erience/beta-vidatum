@@ -1,0 +1,325 @@
+html,
+body {
+    position: relative;
+    height: 100%;
+}
+
+body {
+    font-family: "Karla", sans-serif;
+    font-size: 18px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    line-height: 25px;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600;
+}
+
+h5 {
+    font-size: 18px;
+}
+
+h6 {
+    font-size: 16px;
+}
+
+.fw-bold {
+    font-weight: 600;
+}
+
+.logo {
+    max-width: 170px;
+    width: 100%;
+    height: auto;
+}
+
+.nav-ul,
+.sub-ul {
+    list-style: none;
+    margin: 20px 0 0;
+    width: 100%;
+    padding: 0;
+    font-size: 0;
+}
+
+.nav-ul li {
+    font-size: 16px;
+    display: inline-block;
+}
+
+.nav-ul li p {
+    margin-bottom: 0;
+    line-height: 2;
+}
+
+.nav-ul li h1 {
+    margin-bottom: 0;
+}
+
+.nav-ul li:first-child {
+    width: 15%;
+}
+
+.nav-ul li:last-child {
+    width: 84%;
+    padding-left: 15px;
+}
+
+.border-gray {
+    border-bottom: 2px solid #e6e6e6;
+}
+
+.border-black {
+    border-bottom: 2px solid #000;
+}
+
+.border-org {
+    border-bottom: 3px solid #000;
+}
+
+.main {
+    padding-top: 30px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.sub-ul li {
+    display: inline;
+}
+
+.sub-ul li:last-child {
+    text-align: center;
+}
+
+.txt-org {
+    color: #000;
+}
+
+.back-org {
+    background: #000;
+}
+
+.form-control,
+.cust-control {
+    border: none;
+    border-bottom: none;
+    border-radius: 0;
+    padding: 0;
+}
+
+.form-control:focus,
+.cust-control:focus {
+    background-color: #fff;
+    border-color: #fff;
+    outline: 0;
+    box-shadow: none;
+}
+
+.regulation-table td,
+.regulation-table th {
+    border: 1px solid #dee2e6;
+
+    width: 20%;
+}
+
+.regulation-table th {
+    text-align: center;
+}
+
+.regulation-table td:first-child {
+    text-align: left;
+}
+
+.regulation-table td input {
+    text-align: right;
+}
+
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid #000000;
+}
+
+.table td,
+.table th {
+    vertical-align: middle !important;
+}
+
+.back-org {
+    background: #000;
+}
+
+.txt-org {
+    color: #000;
+}
+
+footer {
+    font-size: 15px;
+}
+
+.square-box {
+    border: 3px solid #000;
+    /* Border color */
+    padding: 10px;
+    /* Padding inside the box */
+    box-sizing: border-box;
+    /* Include padding and border in the box dimensions */
+    margin: 10px;
+    /* Margin around the box */
+}
+
+@media print {
+    @page {
+        margin: 0;
+    }
+
+    body {
+        margin: 0;
+    }
+
+    footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .pagebreak {
+        page-break-before: always;
+    }
+}
+
+/* slashed-box */
+.slashed-box {
+    position: relative;
+    width: 100%;
+    /* min-height: 200px; */
+    /* padding: 20px; */
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    overflow: hidden;
+}
+
+.slashes-box {
+    position: absolute;
+    left: -20%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4; 
+    pointer-events: none;
+}
+
+.slashes-box span {
+    display: block;
+    position: absolute;
+    width: 1px;
+    height: 300%;
+    top: -50%;
+    background-color: #000;
+    transform: rotate(45deg);
+}
+
+.slashes-box span:nth-child(1) {
+    left: 5%;
+}
+
+.slashes-box span:nth-child(2) {
+    left: 10%;
+}
+
+.slashes-box span:nth-child(3) {
+    left: 15%;
+}
+
+.slashes-box span:nth-child(4) {
+    left: 20%;
+}
+
+.slashes-box span:nth-child(5) {
+    left: 25%;
+}
+
+.slashes-box span:nth-child(6) {
+    left: 30%;
+}
+
+.slashes-box span:nth-child(7) {
+    left: 35%;
+}
+
+.slashes-box span:nth-child(8) {
+    left: 40%;
+}
+
+.slashes-box span:nth-child(9) {
+    left: 45%;
+}
+
+.slashes-box span:nth-child(10) {
+    left: 50%;
+}
+
+.slashes-box span:nth-child(11) {
+    left: 55%;
+}
+
+.slashes-box span:nth-child(12) {
+    left: 60%;
+}
+
+.slashes-box span:nth-child(13) {
+    left: 65%;
+}
+
+.slashes-box span:nth-child(14) {
+    left: 70%;
+}
+
+.slashes-box span:nth-child(15) {
+    left: 75%;
+}
+
+.slashes-box span:nth-child(16) {
+    left: 80%;
+}
+
+.slashes-box span:nth-child(17) {
+    left: 85%;
+}
+
+.slashes-box span:nth-child(18) {
+    left: 90%;
+}
+
+.slashes-box span:nth-child(19) {
+    left: 95%;
+}
+
+.slashes-box span:nth-child(20) {
+    left: 100%;
+}
+
+.slashes-box span:nth-child(21) {
+    left: 105%;
+}
+
+.slashes-box span:nth-child(22) {
+    left: 110%;
+}
+
+.slashes-box span:nth-child(23) {
+    left: 115%;
+}

@@ -1,0 +1,42 @@
+{
+  "name": "test-tailwind",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@tanstack/react-table": "^8.21.3",
+    "axios": "^1.9.0",
+    "file-saver": "^2.0.5",
+    "i": "^0.3.7",
+    "install": "^0.13.0",
+    "js-base64": "^3.7.7",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.15",
+    "lucide-react": "^0.510.0",
+    "moment": "^2.30.1",
+    "next": "15.3.2",
+    "npm": "^10.9.2",
+    "object-hash": "^3.0.0",
+    "postcss": "^8.5.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-feather": "^2.0.10",
+    "react-loading-skeleton": "^3.5.0",
+    "react-select": "^5.10.1",
+    "react-toastify": "^11.0.5",
+    "xlsx": "^0.18.5",
+    "zustand": "^5.0.4"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4.1.6",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.2",
+    "tailwindcss": "^4.1.6"
+  }
+}

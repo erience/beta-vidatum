@@ -1,0 +1,138 @@
+.cust-table th,
+.cust-table td {
+  padding: 0.45rem !important;
+}
+
+.page-item.active .page-link {
+  background-color: #000000 !important;
+  border-color: #ffffff !important;
+  color: #fff !important;
+}
+
+.page-link:hover {
+  color: #fe6c35 !important;
+}
+
+.page-link {
+  color: #101012 !important;
+}
+
+.pc-header .pc-head-link:focus,
+.pc-header .pc-head-link:hover {
+  color: #000000 !important;
+}
+.dropdown .dropdown-item svg {
+  color: #fe6c35;
+}
+.pc-mob-header .pc-head-link,
+.pc-mob-header a {
+  color: #000 !important;
+  font-weight: 700;
+}
+
+.pc-header .user-avtar {
+  border-radius: 0% !important;
+}
+
+.pc-header .pc-head-link.active,
+.pc-header .pc-head-link:active,
+.pc-header .pc-head-link:focus,
+.pc-header .pc-head-link:hover {
+  text-decoration: none;
+  color: #7267ef;
+  background: #fe6c35;
+}
+
+@media (max-width: 1024px) {
+  .pc-header .pc-head-link#mobile-collapse {
+    position: absolute;
+    left: 10px;
+    top: 17px;
+  }
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #000000;
+}
+.missing-none {
+  position: relative;
+}
+
+.missing-none::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  width: 3px;
+  height: 60%;
+  background-color: green;
+}
+
+.missing-info {
+  position: relative;
+}
+
+.missing-info::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  width: 3px;
+  height: 60%;
+  background-color: red;
+}
+
+.missing-range {
+  position: relative;
+}
+
+.missing-range::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  width: 3px;
+  height: 60%;
+  background-color: orange;
+}
+
+.missing-both {
+  position: relative;
+}
+
+.missing-both::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  width: 3px;
+  height: 60%;
+  background-color: red;
+}
+.verified {
+  position: relative;
+}
+.verified-lock {
+  position: relative;
+}
+
+.verified::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 18%;
+  width: 3px;
+  height: 60%;
+  background-color: gray !important;
+}
+.verified-lock::after {
+  content: "🔒";
+  position: absolute;
+  left: 5%;
+  top: 20%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: gray;
+}

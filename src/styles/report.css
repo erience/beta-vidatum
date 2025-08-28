@@ -1,0 +1,151 @@
+@font-face {
+   font-family: 'Avant Garde';
+   src: url('/assets/avant/AvantGarde-Book.woff') format('woff');
+        
+
+ }
+ 
+ header p {
+   font-family: 'Avant Garde', sans-serif; /* Ensure fallback font */
+ }
+ 
+html,
+body {
+   position: relative;
+   height: 100%;
+}
+body {
+   font-family: "Karla", sans-serif;
+   font-optical-sizing: auto;
+   font-size: 15px;
+   color: #000;
+   margin: 0;
+   padding: 0;
+   line-height: 25px;
+}
+
+p {
+   margin-bottom: 10px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Karla", sans-serif;
+   font-weight: 700;
+}
+h5 {
+   font-size: 18px;
+}
+h6 {
+   font-size: 16px;
+}
+.logo {
+   max-width: 170px;
+   width: 100%;
+   height: auto;
+}
+.nav-ul,
+.sub-ul {
+   list-style: none;
+   margin: 20px 0 0;
+   width: 100%;
+   padding: 0;
+   font-size: 0;
+}
+.nav-ul li {
+   font-size: 16px;
+   display: inline-block;
+}
+.nav-ul li p {
+   margin-bottom: 0;
+   line-height: 2;
+}
+.nav-ul li h1 {
+   margin-bottom: 0;
+}
+
+.nav-ul li:first-child {
+   width: 15%;
+}
+.nav-ul li:last-child {
+   width: 84%;
+   padding-left: 15px;
+}
+.border-gray {
+   border-bottom: 2px solid #e6e6e6;
+}
+.border-black {
+   border-bottom: 2px solid #000;
+}
+.border-org {
+   border-bottom: 3px solid #ff6d34;
+}
+.main {
+   padding-top: 30px;
+}
+.mt-30 {
+   margin-top: 30px;
+}
+.sub-ul li {
+   display: inline;
+}
+.sub-ul li:last-child {
+   text-align: center;
+}
+.txt-org {
+   color: #ff6d34;
+}
+.back-org {
+   background: #ff6d34;
+}
+.form-control,
+.cust-control {
+   border: none;
+   border-bottom: none;
+   border-radius: 0;
+   padding: 0;
+}
+
+.form-control:focus,
+.cust-control:focus {
+   background-color: #fff;
+   border-color: #fff;
+   outline: 0;
+   box-shadow: none;
+}
+.regulation-table td,
+.regulation-table th {
+   border: 1px solid #dee2e6;
+
+   width: 20%;
+}
+.regulation-table th {
+   text-align: center;
+}
+.regulation-table td:first-child {
+   text-align: left;
+}
+.regulation-table td input {
+   text-align: right;
+}
+.table td,
+.table th {
+   vertical-align: middle !important;
+}
+.back-org {
+   background: #ff6d34;
+}
+.txt-org {
+   color: #ff6d34;
+}
+@media print {
+   footer {
+       position: absolute;
+       bottom: 0;
+       left: 0;
+       right: 0;
+   }
+}

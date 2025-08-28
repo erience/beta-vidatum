@@ -1,0 +1,74 @@
+/*Database Export Buttons and Select Column css start*/
+div.dt-button-collection{
+    position: initial;
+    width: 0px;
+     padding: 0; 
+     border: none; 
+     background-color: transparent;
+}
+.dt-buttons .btn-secondary {
+    color: #fff;
+    background-color: #1c232f;
+    border-color: #1c232f;
+}
+.dt-button-collection .dropdown-menu{
+    padding: 5px 5px;
+}
+table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc{
+    background-image: none !important;
+}
+div.dt-button-collection button.dt-button:active:not(.disabled), div.dt-button-collection button.dt-button.active:not(.disabled), div.dt-button-collection div.dt-button:active:not(.disabled), div.dt-button-collection div.dt-button.active:not(.disabled), div.dt-button-collection a.dt-button:active:not(.disabled), div.dt-button-collection a.dt-button.active:not(.disabled){
+    background: #1c232f !important;   
+    box-shadow: none !important;
+}
+button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-button:hover:not(.disabled), input.dt-button:hover:not(.disabled), button.dt-button, div.dt-button, a.dt-button, input.dt-button {
+    border: 1px solid #6c757d !important;
+    background: #6c757d !important;
+    color: #fff;
+}
+
+
+.page-link {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #000000;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #000000;
+    border-color: #4a4745;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 1.5em;
+    padding: 0;
+    margin-left: 2px;
+    text-align: center;
+    text-decoration: none !important;
+    *cursor: hand;
+    color: #21bd6d !important;
+    border: 1px solid transparent;
+    border-radius: 2px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+    background: linear-gradient(to bottom, #585858 0%, #fff 100%);
+    border: 1px solid #fff;    
+}
+
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    background-color: transparent;
+    padding: 0px 25px 0px 0px;
+}
+/*Database Export Buttons and Select Column css end*/
