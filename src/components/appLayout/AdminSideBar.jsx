@@ -10,36 +10,36 @@ const menus = [
     name: "Dashboard",
     icon: "Home",
     children: [
+      // {
+      //   id: "dashboardData",
+      //   name: "Dashboard",
+      //   path: "/admin/dashboard",
+      // },
       {
-        id: "dashboardData",
+        id: "dashboardDatav2",
         name: "Dashboard",
-        path: "/admin/dashboard",
+        path: "/admin/dashboardv2",
       },
       // {
-      //   id: "dashboardDatav2",
-      //   name: "Dashboard V2",
-      //   path: "/admin/dashboardv2",
+      //   id: "pendinginward",
+      //   name: "Pending Inward Dashboard",
+      //   path: "/admin/pendingInwardDashboard",
       // },
       {
-        id: "pendinginward",
+        id: "pendinginwardv2",
         name: "Pending Inward Dashboard",
-        path: "/admin/pendingInwardDashboard",
+        path: "/admin/pendingInwardDashboardv2",
       },
       // {
-      //   id: "pendinginwardv2",
-      //   name: "Pending Inward Dashboard V2",
-      //   path: "/admin/pendingInwardDashboardv2",
+      //   id: "outwarddashboardv1",
+      //   name: "Pending Outward Dashboard V1",
+      //   path: "/admin/outwardDashboardv1",
       // },
       {
-        id: "outwarddashboardv1",
-        name: "Pending Outward Dashboard V1",
-        path: "/admin/outwardDashboardv1",
+        id: "outwarddashboardv2",
+        name: "Pending Outward Dashboard",
+        path: "/admin/outwardDashboardv2",
       },
-      // {
-      //   id: "outwarddashboardv2",
-      //   name: "Pending Outward Dashboard V2",
-      //   path: "/admin/outwardDashboardv2",
-      // },
     ],
   },
   {
@@ -259,89 +259,89 @@ const menus = [
     name: "Process",
     icon: "Codepen",
     children: [
-      {
-        id: "inwardprocessv2",
-        name: "Inward Process ",
-        children: [
-          {
-            id: "searchinward",
-            name: "Search Inward",
-            path: "/admin/inward/serachInward",
-          },
-          {
-            id: "alldatewise",
-            name: "All Inward Datewise",
-            path: "/admin/inward/inwardDateWise",
-          },
-          // {
-          //   id: "escrowList",
-          //   name: "Ascros List",
-          //   path: "/admin/inward/ascrosList",
-          // },
-          // {
-          //   id: "dematfile",
-          //   name: "Demat File",
-          //   path: "/admin/inward/addDematFile",
-          // },
-          {
-            id: "kycrequest",
-            name: "KYC Request",
-            path: "/admin/inward/kycInwardProcess",
-          },
-          {
-            id: "dematrequest",
-            name: "Demat Request",
-            path: "/admin/inward/demateInwardProcess",
-          },
-          {
-            id: "rematrequest",
-            name: "Remat Request",
-            path: "/admin/inward/remateInwardProcess",
-          },
-          {
-            id: "transferrequest",
-            name: "Transfer Request",
-            path: "/admin/inward/transferInward",
-          },
-          {
-            id: "transmissionrequest",
-            name: "Transmission Request",
-            path: "/admin/inward/transmissionInward",
-          },
-          {
-            id: "duplicaterequest",
-            name: "Duplicate Request",
-            path: "/admin/inward/duplicateShareCertificate",
-          },
-          {
-            id: "exchangerequest",
-            name: "Exchange Request",
-            path: "/admin/inward/exchangeInwardProcess",
-          },
-          {
-            id: "otherinwards",
-            name: "Other Inwards",
-            path: "/admin/inward/otherInwardProcess",
-          },
-          // {
-          //   id: "inwardfileformat",
-          //   name: "Inward File Format",
-          //   path: "/admin/inward/inwardFileFormate",
-          // },
-          // {
-          //   id: "inwardanalytics",
-          //   name: "Inward Analytics",
-          //   path: "/admin/inward/inwardAnalytics",
-          // },
-        ],
-      },
+      // {
+      //   id: "inwardprocessv2",
+      //   name: "Inward Process ",
+      //   children: [
+      //     {
+      //       id: "searchinward",
+      //       name: "Search Inward",
+      //       path: "/admin/inward/serachInward",
+      //     },
+      //     {
+      //       id: "alldatewise",
+      //       name: "All Inward Datewise",
+      //       path: "/admin/inward/inwardDateWise",
+      //     },
+      //     // {
+      //     //   id: "escrowList",
+      //     //   name: "Ascros List",
+      //     //   path: "/admin/inward/ascrosList",
+      //     // },
+      //     // {
+      //     //   id: "dematfile",
+      //     //   name: "Demat File",
+      //     //   path: "/admin/inward/addDematFile",
+      //     // },
+      //     {
+      //       id: "kycrequest",
+      //       name: "KYC Request",
+      //       path: "/admin/inward/kycInwardProcess",
+      //     },
+      //     {
+      //       id: "dematrequest",
+      //       name: "Demat Request",
+      //       path: "/admin/inward/demateInwardProcess",
+      //     },
+      //     {
+      //       id: "rematrequest",
+      //       name: "Remat Request",
+      //       path: "/admin/inward/remateInwardProcess",
+      //     },
+      //     {
+      //       id: "transferrequest",
+      //       name: "Transfer Request",
+      //       path: "/admin/inward/transferInward",
+      //     },
+      //     {
+      //       id: "transmissionrequest",
+      //       name: "Transmission Request",
+      //       path: "/admin/inward/transmissionInward",
+      //     },
+      //     {
+      //       id: "duplicaterequest",
+      //       name: "Duplicate Request",
+      //       path: "/admin/inward/duplicateShareCertificate",
+      //     },
+      //     {
+      //       id: "exchangerequest",
+      //       name: "Exchange Request",
+      //       path: "/admin/inward/exchangeInwardProcess",
+      //     },
+      //     {
+      //       id: "otherinwards",
+      //       name: "Other Inwards",
+      //       path: "/admin/inward/otherInwardProcess",
+      //     },
+      //     // {
+      //     //   id: "inwardfileformat",
+      //     //   name: "Inward File Format",
+      //     //   path: "/admin/inward/inwardFileFormate",
+      //     // },
+      //     // {
+      //     //   id: "inwardanalytics",
+      //     //   name: "Inward Analytics",
+      //     //   path: "/admin/inward/inwardAnalytics",
+      //     // },
+      //   ],
+      // },
       {
         id: "inwardProcessv2",
-        name: "Inward Process V2",
+        name: "Inward Process",
         children: [
           {
             id: "inwardprocessv2",
-            name: "Inward Process V2",
+            name: "Inward Process",
             path: "/admin/inwardProcessv2",
           },
         ],
@@ -355,11 +355,11 @@ const menus = [
           //   name: "Outward Process",
           //   path: "/admin/outward/outwardProcess",
           // },
-          {
-            id: "outwardprocessv2",
-            name: "Outward Process",
-            path: "/admin/outward/outwardProcess",
-          },
+          // {
+          //   id: "outwardprocessv2",
+          //   name: "Outward Process",
+          //   path: "/admin/outward/outwardProcess",
+          // },
           {
             id: "outwardprocessv3",
             name: "Outward Process V2",
