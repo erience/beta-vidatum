@@ -9,22 +9,40 @@ const PendingInwardDashboard = () => {
   const [loading, setLoading] = useState(true);
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+  // Date formatting function
+  const formatDate = (dateString) => {
+    if (!dateString) return "-";
+    
+    try {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "-";
+    }
+  };
+
   const fetchPendingInwardData = async () => {
     try {
+      setLoading(true); // Set loading to true at the start
       const response = await apiConnector(
         "GET",
-        `${apiUrl}/v2/admin/pendingdematdashboard?table=b_inward&isin=b_isin&demattable=b_inward_info`
+        `${apiUrl}/v2/admin/pendingdematdashboard?table=b_inward_v2&isin=c_isin&demattable=b_inward_info_v2`
       );
       console.log("data", response.data.result);
       setData(response.data.result);
-      setLoading(false);
     } catch (error) {
       const errMsg = error?.response?.data?.message;
       toast.error(errMsg || "An error occurred while processing the request.");
       console.error("Error fetching ISIN data:", error);
-      setLoading(false);
+    } finally {
+      setLoading(false); // Always set loading to false
     }
   };
+
   useEffect(() => {
     fetchPendingInwardData();
   }, []);
@@ -39,12 +57,20 @@ const PendingInwardDashboard = () => {
       {
         header: "Reference Number",
         accessorKey: "ref",
-        cell: (info) => info?.row?.original?.ref,
+        cell: (info) => info?.row?.original?.ref || "-",
       },
       {
-        header: "DaysElapsed",
+        header: "Days Elapsed",
         accessorKey: "daysElapsed",
-        cell: (info) => info?.row?.original?.daysElapsed,
+        cell: (info) => info?.row?.original?.daysElapsed || "-",
+      },
+      {
+        header: "Date Created",
+        accessorKey: "created_at",
+        cell: (info) => {
+          const dateValue = info?.row?.original?.created_at;
+          return formatDate(dateValue);
+        },
       },
       {
         header: "Inward Info",
@@ -57,7 +83,7 @@ const PendingInwardDashboard = () => {
             </span>
           ) : (
             <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-              Completed
+              {val}
             </span>
           );
         },
@@ -73,7 +99,7 @@ const PendingInwardDashboard = () => {
             </span>
           ) : (
             <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-              Completed
+              {val}
             </span>
           );
         },

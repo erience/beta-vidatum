@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Archive, Eye, File, FileText, Upload } from "react-feather";
 import { apiConnector } from "@/utils/apihelper";
 
-const Dashboardv2 = () => {
+const Dashboard = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("");
@@ -29,7 +29,7 @@ const Dashboardv2 = () => {
   useEffect(() => {
     apiConnector(
       "GET",
-      `${apiUrl}/v2/admin/dashboard?table=b_inward_v2&isin=c_isin`
+      `${apiUrl}/v2/admin/dashboard?table=b_inward&isin=b_isin`
     )
       .then((response) => {
         const responseData = response.data.result || {};
@@ -147,7 +147,7 @@ const Dashboardv2 = () => {
           return (
             <Link
               target="_blank"
-              href={`/admin/inward/viewInwardV2/${encodeURIComponent(
+              href={`/admin/inward/viewInward/${encodeURIComponent(
                 rowData.ref
               )}`}
             >
@@ -257,4 +257,4 @@ const Dashboardv2 = () => {
   );
 };
 
-export default Dashboardv2;
+export default Dashboard;

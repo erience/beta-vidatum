@@ -15,31 +15,31 @@ const menus = [
         name: "Dashboard",
         path: "/admin/dashboard",
       },
-      {
-        id: "dashboardDatav2",
-        name: "Dashboard V2",
-        path: "/admin/dashboardv2",
-      },
+      // {
+      //   id: "dashboardDatav2",
+      //   name: "Dashboard V2",
+      //   path: "/admin/dashboardv2",
+      // },
       {
         id: "pendinginward",
         name: "Pending Inward Dashboard",
         path: "/admin/pendingInwardDashboard",
       },
-      {
-        id: "pendinginwardv2",
-        name: "Pending Inward Dashboard V2",
-        path: "/admin/pendingInwardDashboardv2",
-      },
+      // {
+      //   id: "pendinginwardv2",
+      //   name: "Pending Inward Dashboard V2",
+      //   path: "/admin/pendingInwardDashboardv2",
+      // },
       {
         id: "outwarddashboardv1",
         name: "Pending Outward Dashboard V1",
         path: "/admin/outwardDashboardv1",
       },
-      {
-        id: "outwarddashboardv2",
-        name: "Pending Outward Dashboard V2",
-        path: "/admin/outwardDashboardv2",
-      },
+      // {
+      //   id: "outwarddashboardv2",
+      //   name: "Pending Outward Dashboard V2",
+      //   path: "/admin/outwardDashboardv2",
+      // },
     ],
   },
   {
