@@ -147,7 +147,7 @@ const Dashboardv2 = () => {
           return (
             <Link
               target="_blank"
-              href={`/admin/inward/viewInward/${encodeURIComponent(
+              href={`/admin/inward/viewInwardv2/${encodeURIComponent(
                 rowData.ref
               )}`}
             >

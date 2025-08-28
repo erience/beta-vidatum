@@ -30,6 +30,23 @@ const ViewInwardV2 = () => {
   const router = useRouter();
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+  // Helper function to get the available request type
+  const getAvailableRequestType = (requests) => {
+    if (!requests || typeof requests !== 'object') return null;
+    
+    const requestTypes = ['demat', 'kyc', 'transmission', 'duplicate', 'other', 'exchange', 'remat'];
+    
+    for (const type of requestTypes) {
+      if (requests[type] && 
+          ((requests[type].info && requests[type].info.length > 0) || 
+           (requests[type].registers && requests[type].registers.length > 0) ||
+           (requests[type].history && requests[type].history.length > 0))) {
+        return type;
+      }
+    }
+    return null;
+  };
+
   const fetchInwardData = async () => {
     try {
       const response = await apiConnector(
@@ -45,7 +62,10 @@ const ViewInwardV2 = () => {
       setBRegisterData(result.b_register || []);
       setBRegisterShareData(result.b_register_share || []);
 
-      // Extract oldLfData from different possible locations
+      // Get the available request type dynamically
+      const availableRequestType = getAvailableRequestType(result.requests);
+      
+      // Extract oldLfData from available request type
       let oldLfDataArray = [];
 
       // Check if oldLfData exists at root level
@@ -53,18 +73,18 @@ const ViewInwardV2 = () => {
         oldLfDataArray = result.oldLfData;
       }
 
-      // Check if oldLfData exists in transmission registers
-      if (result.requests?.transmission?.registers) {
-        result.requests.transmission.registers.forEach((register) => {
+      // Check if oldLfData exists in the available request type
+      if (availableRequestType && result.requests?.[availableRequestType]?.registers) {
+        result.requests[availableRequestType].registers.forEach((register) => {
           if (register.oldLfData && Array.isArray(register.oldLfData)) {
             oldLfDataArray = [...oldLfDataArray, ...register.oldLfData];
           }
         });
       }
 
-      // Check if oldLfData exists in history
-      if (result.requests?.transmission?.history) {
-        result.requests.transmission.history.forEach((historyItem) => {
+      // Check history for the available request type
+      if (availableRequestType && result.requests?.[availableRequestType]?.history) {
+        result.requests[availableRequestType].history.forEach((historyItem) => {
           if (historyItem.data && Array.isArray(historyItem.data)) {
             historyItem.data.forEach((dataItem) => {
               if (dataItem.registers && Array.isArray(dataItem.registers)) {
@@ -81,9 +101,9 @@ const ViewInwardV2 = () => {
 
       setOldLfData(oldLfDataArray);
 
-      // Extract history data if exists
-      if (result.requests?.transmission?.history) {
-        setHistoryData(result.requests.transmission.history);
+      // Extract history data if exists for the available request type
+      if (availableRequestType && result.requests?.[availableRequestType]?.history) {
+        setHistoryData(result.requests[availableRequestType].history);
       }
     } catch (error) {
       const errMsg = error?.response?.data?.message;
@@ -263,6 +283,285 @@ const ViewInwardV2 = () => {
     }
   };
 
+  // Get the appropriate label for the request type
+  const getTypeLabel = (type) => {
+    const labels = {
+      demat: 'Demat',
+      kyc: 'KYC',
+      transmission: 'Transmission',
+      duplicate: 'Duplicate',
+      other: 'Other',
+      exchange: 'Exchange',
+      remat: 'Remat'
+    };
+    return labels[type] || type.charAt(0).toUpperCase() + type.slice(1);
+  };
+
+  // Helper function for duplicate request fields
+  const renderDuplicateFields = (item) => (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-700">
+      <div>
+        <p><strong>NAME 1:</strong></p>
+        <p>{item.name1 || "N/A"}</p>
+        <p><strong>PAN 1:</strong></p>
+        <p>{item.pan1 || "N/A"}</p>
+        <p><strong>IS KYC:</strong></p>
+        <p>{item.isKyc === 1 ? "Yes" : "No"}</p>
+      </div>
+      <div>
+        <p><strong>NAME 2:</strong></p>
+        <p>{item.name2 || "N/A"}</p>
+        <p><strong>PAN 2:</strong></p>
+        <p>{item.pan2 || "N/A"}</p>
+        <p><strong>ADDRESS:</strong></p>
+        <p>{item.address || "N/A"}</p>
+      </div>
+      <div>
+        <p><strong>NAME 3:</strong></p>
+        <p>{item.name3 || "N/A"}</p>
+        <p><strong>PAN 3:</strong></p>
+        <p>{item.pan3 || "N/A"}</p>
+        <p><strong>REMARKS:</strong></p>
+        <p>{item.remarks || "N/A"}</p>
+      </div>
+    </div>
+  );
+
+  // Helper function for transmission request fields
+  const renderTransmissionFields = (item) => (
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-700">
+        <div>
+          <p><strong>NAME OF DECEASED HOLDER 1:</strong></p>
+          <p>{item.nodh1 || "No"}</p>
+          <p><strong>DATE OF DEMISE (HOLDER 1):</strong></p>
+          <p>{item.nodh1dod || "N/A"}</p>
+          <p><strong>NAME OF CLAIMANT 1:</strong></p>
+          <p>{item.noc1 || "N/A"}</p>
+          <p><strong>PAN CARD OF CLAIMANT 1:</strong></p>
+          <p>{item.poc1 || "N/A"}</p>
+          <p><strong>IS MINOR:</strong></p>
+          <p>{item.isMinor === 2 ? "No" : "Yes"}</p>
+        </div>
+        <div>
+          <p><strong>NAME OF DECEASED HOLDER 2:</strong></p>
+          <p>{item.nodh2 || "No"}</p>
+          <p><strong>DATE OF DEMISE (HOLDER 2):</strong></p>
+          <p>{item.nodh2dod || "N/A"}</p>
+          <p><strong>NAME OF CLAIMANT 2:</strong></p>
+          <p>{item.noc2 || "N/A"}</p>
+          <p><strong>PAN CARD OF CLAIMANT 2:</strong></p>
+          <p>{item.poc2 || "N/A"}</p>
+          <p><strong>GUARDIAN NAME:</strong></p>
+          <p>{item.gName || "No"}</p>
+        </div>
+        <div>
+          <p><strong>NAME OF DECEASED HOLDER 3:</strong></p>
+          <p>{item.nodh3 || "No"}</p>
+          <p><strong>DATE OF DEMISE (HOLDER 3):</strong></p>
+          <p>{item.nodh3dod || "N/A"}</p>
+          <p><strong>NAME OF CLAIMANT 3:</strong></p>
+          <p>{item.noc3 || "N/A"}</p>
+          <p><strong>PAN CARD OF CLAIMANT 3:</strong></p>
+          <p>{item.poc3 || "N/A"}</p>
+          <p><strong>RELATIONSHIP WITH MINOR:</strong></p>
+          <p>{item.rStatus || "Other"}</p>
+        </div>
+      </div>
+      
+      {/* Bank Details Section */}
+      <div className="mt-6 border-t pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-700">
+          <div>
+            <p><strong>TAX STATUS:</strong></p>
+            <p>{item.tStatus || "Resident Individual"}</p>
+            <p><strong>BANK NAME:</strong></p>
+            <p>{item.bName || "N/A"}</p>
+            <p><strong>BANK ACCOUNT:</strong></p>
+            <p>{item.bAccount || "N/A"}</p>
+            <p><strong>BANK CITY:</strong></p>
+            <p>{item.bCity || "N/A"}</p>
+            <p><strong>OCCUPATION:</strong></p>
+            <p>{item.occupation || "Business"}</p>
+            <p><strong>IS FATCA:</strong></p>
+            <p>{item.isFatca === 1 ? "Yes" : "No"}</p>
+          </div>
+          <div>
+            <p><strong>ADDRESS:</strong></p>
+            <p>{item.address || "N/A"}</p>
+            <p><strong>BANK BRANCH:</strong></p>
+            <p>{item.bBranch || "N/A"}</p>
+            <p><strong>BANK IFSC:</strong></p>
+            <p>{item.bIFSC || "N/A"}</p>
+            <p><strong>BANK TYPE:</strong></p>
+            <p>{item.bType || "Saving"}</p>
+            <p><strong>BANK PIN:</strong></p>
+            <p>{item.bPin || "N/A"}</p>
+            <p><strong>POLITICAL STATUS:</strong></p>
+            <p>{item.pStatus || "Not Applicable"}</p>
+            <p><strong>IS NOMINATION:</strong></p>
+            <p>{item.isNomination === 2 ? "No" : "Yes"}</p>
+          </div>
+          <div>
+            <p><strong>BANK MICR:</strong></p>
+            <p>{item.bMICR || "N/A"}</p>
+            <p><strong>BANK PROOF:</strong></p>
+            <p>{item.bProof || "Cancel Cheque"}</p>
+            <p><strong>ANNUAL INCOME:</strong></p>
+            <p>{item.aIncome || "1-5 Lacs"}</p>
+            <p><strong>IS KYC:</strong></p>
+            <p>{item.isKyc === 1 ? "Yes" : "No"}</p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+
+  // Helper function for demat request fields
+  const renderDematFields = (item) => (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-700">
+      <div>
+        <p><strong>DEMAT ACCOUNT:</strong></p>
+        <p>{item.dematAccount || "N/A"}</p>
+        <p><strong>DEPOSITORY:</strong></p>
+        <p>{item.depository || "N/A"}</p>
+        <p><strong>CLIENT ID:</strong></p>
+        <p>{item.clientId || "N/A"}</p>
+      </div>
+      <div>
+        <p><strong>BROKER NAME:</strong></p>
+        <p>{item.brokerName || "N/A"}</p>
+        <p><strong>BROKER CODE:</strong></p>
+        <p>{item.brokerCode || "N/A"}</p>
+        <p><strong>REMARKS:</strong></p>
+        <p>{item.remarks || "N/A"}</p>
+      </div>
+      <div>
+        <p><strong>ADDRESS:</strong></p>
+        <p>{item.address || "N/A"}</p>
+        <p><strong>IS KYC:</strong></p>
+        <p>{item.isKyc === 1 ? "Yes" : "No"}</p>
+      </div>
+    </div>
+  );
+
+  // Helper function for kyc request fields
+  const renderKycFields = (item) => (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-700">
+      <div>
+        <p><strong>DOCUMENT TYPE:</strong></p>
+        <p>{item.documentType || "N/A"}</p>
+        <p><strong>DOCUMENT NUMBER:</strong></p>
+        <p>{item.documentNumber || "N/A"}</p>
+        <p><strong>ISSUE DATE:</strong></p>
+        <p>{item.issueDate || "N/A"}</p>
+      </div>
+      <div>
+        <p><strong>EXPIRY DATE:</strong></p>
+        <p>{item.expiryDate || "N/A"}</p>
+        <p><strong>PLACE OF ISSUE:</strong></p>
+        <p>{item.placeOfIssue || "N/A"}</p>
+        <p><strong>REMARKS:</strong></p>
+        <p>{item.remarks || "N/A"}</p>
+      </div>
+      <div>
+        <p><strong>ADDRESS:</strong></p>
+        <p>{item.address || "N/A"}</p>
+        <p><strong>IS VERIFIED:</strong></p>
+        <p>{item.isVerified === 1 ? "Yes" : "No"}</p>
+      </div>
+    </div>
+  );
+
+  // Generic function to render request information
+  const renderRequestInfo = () => {
+    const availableRequestType = getAvailableRequestType(requests);
+    
+    if (!availableRequestType) return null;
+
+    const requestData = requests[availableRequestType];
+    const requestInfo = requestData?.info;
+    
+    if (!Array.isArray(requestInfo) || requestInfo.length === 0) return null;
+
+    return (
+      <div className="bg-white shadow-md p-4 rounded-lg border border-gray-200">
+        <div className="flex justify-between items-center mb-4">
+          <h5 className="text-base font-semibold">Inward Information</h5>
+          <span className="bg-cyan-100 text-cyan-800 text-xs font-semibold px-3 py-1 rounded">
+            {getTypeLabel(availableRequestType)}
+          </span>
+        </div>
+
+        {requestInfo.map((item, idx) => (
+          <div key={idx} className="mb-6">
+            <div className="mb-4">
+              <p className="font-semibold">
+                <strong>LEDGER FOLIO:</strong> {item.lf || "N/A"}
+              </p>
+            </div>
+
+            {/* Render fields based on request type */}
+            {availableRequestType === 'transmission' && renderTransmissionFields(item)}
+            {availableRequestType === 'duplicate' && renderDuplicateFields(item)}
+            {availableRequestType === 'demat' && renderDematFields(item)}
+            {availableRequestType === 'kyc' && renderKycFields(item)}
+            {/* You can add other request types as needed */}
+            {!['transmission', 'duplicate', 'demat', 'kyc'].includes(availableRequestType) && (
+              <div className="text-sm text-gray-600">
+                <p>Request type: {getTypeLabel(availableRequestType)}</p>
+                <p>Additional data available for this request type</p>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const renderRegisterData = () => {
+    const availableRequestType = getAvailableRequestType(requests);
+    
+    if (!availableRequestType) return null;
+    
+    const registers = requests[availableRequestType]?.registers;
+    if (!Array.isArray(registers) || registers.length === 0) return null;
+
+    return registers.map((register, idx) => (
+      <div key={idx} className="bg-white shadow-md p-4 rounded-lg border border-gray-200">
+        <div className="flex justify-between items-center mb-4">
+          <h5 className="text-base font-semibold">Register Data</h5>
+          <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded">
+            LF: {register.lf}
+          </span>
+        </div>
+
+        {/* Render register data based on available structure */}
+        {register.c_register?.map((regItem, regIdx) => (
+          <div key={regIdx} className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-700">
+            <div>
+              <p><strong>Name:</strong> {regItem.name}</p>
+              <p><strong>Share:</strong> {regItem.share}</p>
+              <p><strong>Address:</strong> {regItem.address}</p>
+              <p><strong>PIN:</strong> {regItem.pin}</p>
+            </div>
+            <div>
+              <p><strong>Category:</strong> {regItem.category}</p>
+              <p><strong>Occupation:</strong> {regItem.occupation}</p>
+              <p><strong>Father/Mother/Spouse:</strong> {regItem.fms}</p>
+              <p><strong>Is Minor:</strong> {regItem.is_minor}</p>
+            </div>
+            <div>
+              <p><strong>Status:</strong> {regItem.status}</p>
+              <p><strong>Dump:</strong> {regItem.dump}</p>
+              <p><strong>Lien:</strong> {regItem.lien}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    ));
+  };
+
   const columns = useMemo(
     () => [
       { header: "#", accessorKey: "index", cell: (info) => info.row.index + 1 },
@@ -346,252 +645,6 @@ const ViewInwardV2 = () => {
     });
   };
 
-  const renderTransmissionInfo = () => {
-    const transmissionInfo = requests?.transmission?.info;
-    if (!Array.isArray(transmissionInfo) || transmissionInfo.length === 0)
-      return null;
-
-    return (
-      <div className="bg-white shadow-md p-4 rounded-lg border border-gray-200">
-        <div className="flex justify-between items-center mb-4">
-          <h5 className="text-base font-semibold">Inward Information</h5>
-          <span className="bg-cyan-100 text-cyan-800 text-xs font-semibold px-3 py-1 rounded">
-            Transmission
-          </span>
-        </div>
-
-        {transmissionInfo.map((item, idx) => (
-          <div key={idx} className="mb-6">
-            <div className="mb-4">
-              <p className="font-semibold">
-                <strong>LEDGER FOLIO:</strong> {item.lf || "N/A"}
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-700">
-              <div>
-                <p>
-                  <strong>NAME OF DECEASED HOLDER 1:</strong>
-                </p>
-                <p>{item.nodh1 || "No"}</p>
-                <p>
-                  <strong>DATE OF DEMISE (HOLDER 1):</strong>
-                </p>
-                <p>{item.nodh1dod || "N/A"}</p>
-                <p>
-                  <strong>NAME OF CLAIMANT 1:</strong>
-                </p>
-                <p>{item.noc1 || "N/A"}</p>
-                <p>
-                  <strong>PAN CARD OF CLAIMANT 1:</strong>
-                </p>
-                <p>{item.poc1 || "N/A"}</p>
-                <p>
-                  <strong>IS MINOR:</strong>
-                </p>
-                <p>{item.isMinor === 2 ? "No" : "Yes"}</p>
-              </div>
-
-              <div>
-                <p>
-                  <strong>NAME OF DECEASED HOLDER 2:</strong>
-                </p>
-                <p>{item.nodh2 || "No"}</p>
-                <p>
-                  <strong>DATE OF DEMISE (HOLDER 2):</strong>
-                </p>
-                <p>{item.nodh2dod || "N/A"}</p>
-                <p>
-                  <strong>NAME OF CLAIMANT 2:</strong>
-                </p>
-                <p>{item.noc2 || "N/A"}</p>
-                <p>
-                  <strong>PAN CARD OF CLAIMANT 2:</strong>
-                </p>
-                <p>{item.poc2 || "N/A"}</p>
-                <p>
-                  <strong>GUARDIAN NAME:</strong>
-                </p>
-                <p>{item.gName || "No"}</p>
-              </div>
-
-              <div>
-                <p>
-                  <strong>NAME OF DECEASED HOLDER 3:</strong>
-                </p>
-                <p>{item.nodh3 || "No"}</p>
-                <p>
-                  <strong>DATE OF DEMISE (HOLDER 3):</strong>
-                </p>
-                <p>{item.nodh3dod || "N/A"}</p>
-                <p>
-                  <strong>NAME OF CLAIMANT 3:</strong>
-                </p>
-                <p>{item.noc3 || "N/A"}</p>
-                <p>
-                  <strong>PAN CARD OF CLAIMANT 3:</strong>
-                </p>
-                <p>{item.poc3 || "N/A"}</p>
-                <p>
-                  <strong>RELATIONSHIP WITH MINOR:</strong>
-                </p>
-                <p>{item.rStatus || "Other"}</p>
-              </div>
-            </div>
-
-            {/* Bank Details Section */}
-            <div className="mt-6 border-t pt-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-700">
-                <div>
-                  <p>
-                    <strong>TAX STATUS:</strong>
-                  </p>
-                  <p>{item.tStatus || "Resident Individual"}</p>
-                  <p>
-                    <strong>BANK NAME:</strong>
-                  </p>
-                  <p>{item.bName || "N/A"}</p>
-                  <p>
-                    <strong>BANK ACCOUNT:</strong>
-                  </p>
-                  <p>{item.bAccount || "N/A"}</p>
-                  <p>
-                    <strong>BANK CITY:</strong>
-                  </p>
-                  <p>{item.bCity || "N/A"}</p>
-                  <p>
-                    <strong>OCCUPATION:</strong>
-                  </p>
-                  <p>{item.occupation || "Business"}</p>
-                  <p>
-                    <strong>IS FATCA:</strong>
-                  </p>
-                  <p>{item.isFatca === 1 ? "Yes" : "No"}</p>
-                </div>
-
-                <div>
-                  <p>
-                    <strong>ADDRESS:</strong>
-                  </p>
-                  <p>{item.address || "N/A"}</p>
-                  <p>
-                    <strong>BANK BRANCH:</strong>
-                  </p>
-                  <p>{item.bBranch || "N/A"}</p>
-                  <p>
-                    <strong>BANK IFSC:</strong>
-                  </p>
-                  <p>{item.bIFSC || "N/A"}</p>
-                  <p>
-                    <strong>BANK TYPE:</strong>
-                  </p>
-                  <p>{item.bType || "Saving"}</p>
-                  <p>
-                    <strong>BANK PIN:</strong>
-                  </p>
-                  <p>{item.bPin || "N/A"}</p>
-                  <p>
-                    <strong>POLITICAL STATUS:</strong>
-                  </p>
-                  <p>{item.pStatus || "Not Applicable"}</p>
-                  <p>
-                    <strong>IS NOMINATION:</strong>
-                  </p>
-                  <p>{item.isNomination === 2 ? "No" : "Yes"}</p>
-                </div>
-
-                <div>
-                  <p>
-                    <strong>BANK MICR:</strong>
-                  </p>
-                  <p>{item.bMICR || "N/A"}</p>
-                  <p>
-                    <strong>BANK PROOF:</strong>
-                  </p>
-                  <p>{item.bProof || "Cancel Cheque"}</p>
-                  <p>
-                    <strong>ANNUAL INCOME:</strong>
-                  </p>
-                  <p>{item.aIncome || "1-5 Lacs"}</p>
-                  <p>
-                    <strong>IS KYC:</strong>
-                  </p>
-                  <p>{item.isKyc === 1 ? "Yes" : "No"}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  const renderRegisterData = () => {
-    const registers = requests?.transmission?.registers;
-    if (!Array.isArray(registers) || registers.length === 0) return null;
-
-    return registers.map((register, idx) => (
-      <div
-        key={idx}
-        className="bg-white shadow-md p-4 rounded-lg border border-gray-200"
-      >
-        <div className="flex justify-between items-center mb-4">
-          <h5 className="text-base font-semibold">Register Data</h5>
-          <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded">
-            LF: {register.lf}
-          </span>
-        </div>
-
-        {register.c_register?.map((regItem, regIdx) => (
-          <div
-            key={regIdx}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-700"
-          >
-            <div>
-              <p>
-                <strong>Name:</strong> {regItem.name}
-              </p>
-              <p>
-                <strong>Share:</strong> {regItem.share}
-              </p>
-              <p>
-                <strong>Address:</strong> {regItem.address}
-              </p>
-              <p>
-                <strong>PIN:</strong> {regItem.pin}
-              </p>
-            </div>
-            <div>
-              <p>
-                <strong>Category:</strong> {regItem.category}
-              </p>
-              <p>
-                <strong>Occupation:</strong> {regItem.occupation}
-              </p>
-              <p>
-                <strong>Father/Mother/Spouse:</strong> {regItem.fms}
-              </p>
-              <p>
-                <strong>Is Minor:</strong> {regItem.is_minor}
-              </p>
-            </div>
-            <div>
-              <p>
-                <strong>Status:</strong> {regItem.status}
-              </p>
-              <p>
-                <strong>Dump:</strong> {regItem.dump}
-              </p>
-              <p>
-                <strong>Lien:</strong> {regItem.lien}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-    ));
-  };
-
   // Calculate range counts
   const rangeCounts = useMemo(() => {
     if (!inwardRange || inwardRange.length === 0) {
@@ -659,27 +712,30 @@ const ViewInwardV2 = () => {
                 <tr>
                   <td className="py-2">Master Data</td>
                   <td>
-                    {inwardInfo?.lf || requests?.transmission?.info?.[0]?.lf ? (
-                      <Link
-                        href={`/admin/register/viewRegisterShare/${btoa(
-                          inwardInfo.lf || requests.transmission.info[0].lf
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-green-600"
-                      >
-                        <Eye />
-                      </Link>
-                    ) : (
-                      <Eye className="text-green-600" />
-                    )}
+                    {(() => {
+                      const availableRequestType = getAvailableRequestType(requests);
+                      const lf = inwardInfo?.lf || 
+                                 (availableRequestType && requests[availableRequestType]?.info?.[0]?.lf);
+                      
+                      return lf ? (
+                        <Link
+                          href={`/admin/register/viewRegisterShare/${btoa(lf)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-green-600"
+                        >
+                          <Eye />
+                        </Link>
+                      ) : (
+                        <Eye className="text-green-600" />
+                      );
+                    })()}
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          {/* Past Requests */}
           {/* Past Requests */}
           {Array.isArray(oldLfData) && oldLfData.length > 0 && (
             <div className="bg-white shadow-md p-4 rounded-lg border border-gray-200 mb-4">
@@ -721,32 +777,39 @@ const ViewInwardV2 = () => {
           {/* Warning Icons */}
           <div className="bg-white shadow-md p-4 rounded-lg border border-gray-200">
             <div className="flex space-x-6 mt-4">
-              {data.filePath &&
-                (inwardInfo.lf || requests?.transmission?.info?.[0]?.lf) &&
-                inwardRange.length > 0 && (
-                  <div className="flex flex-col items-center text-green-500 text-xs">
-                    <CheckCircle size={24} />
-                    <span>All Done</span>
-                  </div>
-                )}
-              {!data.filePath && (
-                <div className="flex flex-col items-center text-red-500 text-xs">
-                  <AlertOctagon size={24} />
-                  <span>PDF</span>
-                </div>
-              )}
-              {!inwardInfo.lf && !requests?.transmission?.info?.[0]?.lf && (
-                <div className="flex flex-col items-center text-red-500 text-xs">
-                  <AlertOctagon size={24} />
-                  <span>Info</span>
-                </div>
-              )}
-              {inwardRange.length === 0 && (
-                <div className="flex flex-col items-center text-yellow-500 text-xs">
-                  <AlertOctagon size={24} />
-                  <span>Range</span>
-                </div>
-              )}
+              {(() => {
+                const availableRequestType = getAvailableRequestType(requests);
+                const hasInfo = inwardInfo.lf || (availableRequestType && requests[availableRequestType]?.info?.[0]?.lf);
+                
+                return (
+                  <>
+                    {data.filePath && hasInfo && inwardRange.length > 0 && (
+                      <div className="flex flex-col items-center text-green-500 text-xs">
+                        <CheckCircle size={24} />
+                        <span>All Done</span>
+                      </div>
+                    )}
+                    {!data.filePath && (
+                      <div className="flex flex-col items-center text-red-500 text-xs">
+                        <AlertOctagon size={24} />
+                        <span>PDF</span>
+                      </div>
+                    )}
+                    {!hasInfo && (
+                      <div className="flex flex-col items-center text-red-500 text-xs">
+                        <AlertOctagon size={24} />
+                        <span>Info</span>
+                      </div>
+                    )}
+                    {inwardRange.length === 0 && (
+                      <div className="flex flex-col items-center text-yellow-500 text-xs">
+                        <AlertOctagon size={24} />
+                        <span>Range</span>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
             </div>
           </div>
 
@@ -884,8 +947,8 @@ const ViewInwardV2 = () => {
             </div>
           </div>
 
-          {/* Transmission Request Information */}
-          {renderTransmissionInfo()}
+          {/* Request Information (Dynamic based on available type) */}
+          {renderRequestInfo()}
 
           {/* Register Data */}
           {renderRegisterData()}
