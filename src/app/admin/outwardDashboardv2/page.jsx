@@ -5,7 +5,7 @@ import { formatDateShort, formatDMY } from "@/utils/helper";
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
-const OutwardDashboardv1 = () => {
+const OutwardDashboardv2 = () => {
   const [outwardData, setOutwardData] = useState([]);
   const [loading, setLoading] = useState(true);
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -14,7 +14,7 @@ const OutwardDashboardv1 = () => {
     try {
       const response = await apiConnector(
         "GET",
-        `${apiUrl}/v2/admin/process/outwardDashboard?table=b_inward&isin=b_isin&demattable=b_inward_info`
+        `${apiUrl}/v2/admin/process/outwardDashboard?table=b_inward_v2&isin=c_isin&demattable=b_inward_info_v2`
       );
       console.log("data", response.data.result);
       setOutwardData(response.data.result);
@@ -116,7 +116,7 @@ const OutwardDashboardv1 = () => {
   return (
     <>
       <ViewDataTable
-        title="Pending Outward Dashboard V1"
+        title="Pending Outward Dashboard V2"
         columns={balanceColumns}
         data={outwardData}
         isLoading={loading}
@@ -125,4 +125,4 @@ const OutwardDashboardv1 = () => {
   );
 };
 
-export default OutwardDashboardv1;
+export default OutwardDashboardv2;

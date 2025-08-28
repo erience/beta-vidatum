@@ -29,7 +29,7 @@ const Dashboard = () => {
   useEffect(() => {
     apiConnector(
       "GET",
-      `${apiUrl}/v2/admin/dashboard?table=b_inward_v2&isin=c_isin`
+      `${apiUrl}/v2/admin/dashboard?table=b_inward&isin=b_isin`
     )
       .then((response) => {
         const responseData = response.data.result || {};
@@ -147,7 +147,7 @@ const Dashboard = () => {
           return (
             <Link
               target="_blank"
-              href={`/admin/inward/viewInwardV2/${encodeURIComponent(
+              href={`/admin/inward/viewInward/${encodeURIComponent(
                 rowData.ref
               )}`}
             >
